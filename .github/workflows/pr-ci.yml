@@ -22,9 +22,13 @@ jobs:
         node: ['20', '22', '24']
 
     steps:
-      - uses: actions/checkout@v4
+      # Pinned to a commit, not a tag: a tag is mutable and this token can write to the
+      # repo. Dependabot keeps the pin and its comment current.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ matrix.node }}
           cache: npm
@@ -40,7 +44,7 @@ jobs:
 
       - name: Cache Chromium
         id: chromium-cache
-        uses: actions/cache@v4
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/ms-playwright
           key: chromium-${{ runner.os }}-${{ steps.pw.outputs.version }}
